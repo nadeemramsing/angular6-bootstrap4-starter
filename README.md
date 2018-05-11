@@ -1,2 +1,2 @@
 # angular6-bootstrap4-starter
-Playing around with angular 6 and bootstrap 4.
+Playing around with Angular 6 and Bootstrap 4.
