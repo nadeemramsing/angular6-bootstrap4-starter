@@ -3,8 +3,7 @@ import { ExtraOptions, Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   //lazy loading
-  //loadChildren path is relative to where 'npm start / ng serve' was run
-  { path: 'pages', loadChildren: 'src/app/pages/pages.module#PagesModule' },
+  { path: 'pages', loadChildren: './pages/pages.module#PagesModule' },
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
 ];
