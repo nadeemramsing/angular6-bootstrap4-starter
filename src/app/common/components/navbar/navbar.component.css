@@ -1,9 +1,19 @@
 #sidebar {
     min-width: 130px;
 }
-.nav-link[data-toggle].collapsed:after {
+.arrow-down .nav-link:after {
     content: "▾";
 }
-.nav-link[data-toggle]:not(.collapsed):after {
+
+.arrow-up .nav-link:after {
     content: "▴";
+}
+
+.nav-link {
+    color: #007bff;
+    cursor: pointer;
+}
+
+.active {
+    font-weight: bold;
 }

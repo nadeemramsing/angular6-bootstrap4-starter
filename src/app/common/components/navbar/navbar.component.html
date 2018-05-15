@@ -6,22 +6,36 @@
              id="sidebar">
             <ul class="nav w-100 flex-column">
                 <ng-container *ngFor="let item of menu">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           (click)="item.showChildren = !item.showChildren"
-                           [routerLink]="item.link">
+                    <li class="nav-item"
+                        (click)="item.showChildren = !item.showChildren"
+                        [ngClass]="{'arrow-up': item.children && item.showChildren, 'arrow-down': item.children && !item.showChildren}">
+
+                        <a *ngIf="item.link; else elseBlock"
+                           class="nav-link"
+                           [routerLink]="item.link"
+                           routerLinkActive="active">
                             {{item.title}}
                         </a>
+
+                        <ng-template #elseBlock>
+                            <span class="nav-link">{{item.title}}</span>
+                        </ng-template>
                     </li>
 
                     <ul class="flex-column pl-2 nav"
                         [hidden]="!item.showChildren">
                         <ng-container *ngFor="let child of item.children">
                             <li class="nav-item">
-                                <a class="nav-link py-0"
-                                   [routerLink]="child.link">
+                                <a *ngIf="child.link; else elseBlock"
+                                   class="nav-link py-0"
+                                   [routerLink]="child.link"
+                                   routerLinkActive="active">
                                     {{child.title}}
                                 </a>
+
+                                <ng-template #elseBlock>
+                                    <span class="nav-link py-0">{{child.title}}</span>
+                                </ng-template>
                             </li>
                         </ng-container>
                     </ul>
@@ -31,7 +45,6 @@
         </div>
         <div class="col pt-2">
             <router-outlet></router-outlet>
-            TEST
         </div>
     </div>
 </div>

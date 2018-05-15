@@ -2,7 +2,8 @@ export const MENU_ITEMS: Array<Object> = [
   {
     title: 'Form',
     //routerLink = undefined => won't redirect URL
-    //link: 'form',
+    //# => routerLinkActive works as expected
+    //link: '',
     children: [
       {
         title: 'Form1',
@@ -16,7 +17,7 @@ export const MENU_ITEMS: Array<Object> = [
   },
   {
     title: 'Table',
-    //link: 'table',
+    //link: '',
     children: [
       {
         title: 'Table1'
