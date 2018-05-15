@@ -9,7 +9,10 @@ const routes: Routes = [
     component: PagesComponent,
     children:
       [
-        
+        {
+          path: 'form',
+          loadChildren: './form/form.module#FormModule'
+        }
       ]
   }
 ];

@@ -1,19 +1,22 @@
 export const MENU_ITEMS: Array<Object> = [
   {
     title: 'Form',
-    link: 'form',
+    //routerLink = undefined => won't redirect URL
+    //link: 'form',
     children: [
       {
-        title: 'Form1'
+        title: 'Form1',
+        link: 'form/form1'
       },
       {
-        title: 'Form2'
+        title: 'Form2',
+        link: 'form/form2'
       }
     ]
   },
   {
     title: 'Table',
-    link: 'table',
+    //link: 'table',
     children: [
       {
         title: 'Table1'
@@ -22,7 +25,7 @@ export const MENU_ITEMS: Array<Object> = [
         title: 'Table2'
       }
     ]
-    
+
   },
   {
     title: 'Tabs',
