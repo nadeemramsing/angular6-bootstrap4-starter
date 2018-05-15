@@ -2,7 +2,7 @@
 
 <div class="container-fluid h-100">
     <div class="row h-100">
-        <div class="col-2 collapse d-md-flex bg-faded pt-2 h-100"
+        <div class="col-2 collapse d-md-flex bg-faded p-0 pt-2 h-100"
              id="sidebar">
             <ul class="nav w-100 flex-column">
                 <ng-container *ngFor="let item of menu">
@@ -22,19 +22,25 @@
                         </ng-template>
                     </li>
 
-                    <ul class="flex-column pl-2 nav"
+                    <ul class="flex-column nav"
                         [hidden]="!item.showChildren">
                         <ng-container *ngFor="let child of item.children">
                             <li class="nav-item">
                                 <a *ngIf="child.link; else elseBlock"
-                                   class="nav-link py-0"
+                                   class="nav-link"
                                    [routerLink]="child.link"
                                    routerLinkActive="active">
-                                    {{child.title}}
+                                    <span class="pl-2">
+                                        {{child.title}}
+                                    </span>
                                 </a>
 
                                 <ng-template #elseBlock>
-                                    <span class="nav-link py-0">{{child.title}}</span>
+                                    <span class="nav-link">
+                                        <span class="pl-2">
+                                            {{child.title}}
+                                        </span>
+                                    </span>
                                 </ng-template>
                             </li>
                         </ng-container>

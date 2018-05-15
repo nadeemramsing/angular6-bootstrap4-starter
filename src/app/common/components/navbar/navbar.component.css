@@ -1,19 +1,25 @@
 #sidebar {
     min-width: 130px;
+    background-color: #212E3B;
 }
-.arrow-down .nav-link:after {
-    content: "▾";
-}
+.arrow-down .nav-link::after {
+    content: "▾";}
 
-.arrow-up .nav-link:after {
+.arrow-up .nav-link::after {
     content: "▴";
 }
 
 .nav-link {
-    color: #007bff;
+    color: white;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 }
 
 .active {
-    font-weight: bold;
+    background-color: rgb(20, 28, 36);
+}
+
+.nav-item:hover {
+    background-color: rgb(51, 70, 90);
 }
