@@ -1,113 +1,37 @@
-<!-- From https://www.codeply.com/go/hVbwZ8ttu8/bootstrap-4-vertical-menu-with-submenu -->
+<!-- Inspired from https://www.codeply.com/go/hVbwZ8ttu8/bootstrap-4-vertical-menu-with-submenu -->
+
 <div class="container-fluid h-100">
     <div class="row h-100">
         <div class="col-2 collapse d-md-flex bg-faded pt-2 h-100"
              id="sidebar">
+            <ul class="nav w-100 flex-column">
+                <ng-container *ngFor="let item of menu">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           (click)="item.showChildren = !item.showChildren"
+                           [routerLink]="item.link">
+                            {{item.title}}
+                        </a>
+                    </li>
 
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link"
-                       href="#">
-                        Overview
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link collapsed"
-                       href="#submenu1"
-                       data-toggle="collapse"
-                       data-target="#submenu1">
-                        Reports
-                    </a>
-
-                    <div class="collapse"
-                         id="submenu1"
-                         aria-expanded="false">
-
-                        <ul class="flex-column pl-2 nav">
+                    <ul class="flex-column pl-2 nav"
+                        [hidden]="!item.showChildren">
+                        <ng-container *ngFor="let child of item.children">
                             <li class="nav-item">
                                 <a class="nav-link py-0"
-                                   href="">Orders</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link collapsed py-0"
-                                   href="#submenu1sub1"
-                                   data-toggle="collapse"
-                                   data-target="#submenu1sub1">
-                                    Customers
+                                   [routerLink]="child.link">
+                                    {{child.title}}
                                 </a>
-
-                                <div class="collapse small"
-                                     id="submenu1sub1"
-                                     aria-expanded="false">
-
-                                    <ul class="flex-column nav pl-4">
-                                        <li class="nav-item">
-                                            <a class="nav-link p-0"
-                                               href="">
-                                                <i class="fa fa-fw fa-clock-o"></i>
-                                                Daily
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link p-0"
-                                               href="">
-                                                <i class="fa fa-fw fa-dashboard"></i>
-                                                Dashboard
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link p-0"
-                                               href="">
-                                                <i class="fa fa-fw fa-bar-chart"></i>
-                                                Charts
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link p-0"
-                                               href="">
-                                                <i class="fa fa-fw fa-compass"></i>
-                                                Areas
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
                             </li>
-                        </ul>
-                    </div>
-                </li>
+                        </ng-container>
+                    </ul>
 
-                <li class="nav-item">
-                    <a class="nav-link"
-                       href="#">
-                        Analytics
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link"
-                       href="#">
-                        Export
-                    </a>
-                </li>
+                </ng-container>
             </ul>
         </div>
         <div class="col pt-2">
-            <h2>
-                <a href=""
-                   data-target="#sidebar"
-                   data-toggle="collapse"
-                   class="hidden-md-up">
-                    <i class="fa fa-bars"></i>
-                </a>
-                Content
-            </h2>
-            <h6 class="hidden-sm-down">Shrink page width to see sidebar collapse</h6>
-            <p>3 wolf moon retro jean shorts chambray sustainable roof party. Shoreditch vegan artisan Helvetica. Tattooed Codeply Echo Park Godard kogi, next level irony ennui twee squid fap selvage. Meggings flannel Brooklyn literally small batch, mumblecore PBR try-hard kale chips. Brooklyn vinyl lumbersexual bicycle rights, viral fap cronut leggings squid chillwave pickled gentrify mustache. 3 wolf moon hashtag church-key Odd Future. Austin messenger bag normcore, Helvetica Williamsburg sartorial tote bag distillery Portland before they sold out gastropub taxidermy Vice.</p>
+            <router-outlet></router-outlet>
+            TEST
         </div>
     </div>
 </div>
