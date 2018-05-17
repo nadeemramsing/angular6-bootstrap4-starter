@@ -3,5 +3,7 @@
 @import "./../node_modules/font-awesome/css/font-awesome.min.css";
 
 body, html {
+    color: white;
+    font-family: 'Roboto', cursive;
     height: 100%;
 }
