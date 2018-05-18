@@ -1,9 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-@import "./../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+/* @import "./../node_modules/bootstrap/dist/css/bootstrap.min.css"; */
 @import "./../node_modules/font-awesome/css/font-awesome.min.css";
+
+/* Since scss not being used, needed to do: node-sass .scss .css */
+@import "./../node_modules/angular-bootstrap-md/scss/bootstrap/bootstrap.css";
+@import "./../node_modules/angular-bootstrap-md/scss/mdb-free.css";
 
 body, html {
     color: white;
-    font-family: 'Roboto', cursive;
     height: 100%;
 }
