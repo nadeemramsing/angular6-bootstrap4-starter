@@ -34,6 +34,10 @@ export class Form1Component implements OnInit {
     this.bodyFormControl = this.commentFormGroup.controls['body'];
   }
 
+  postComment() {
+    console.log('valid');
+  }
+
 }
 
 /* HELPER FUNCTIONS */
