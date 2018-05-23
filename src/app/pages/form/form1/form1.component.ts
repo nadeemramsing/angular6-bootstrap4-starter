@@ -3,10 +3,13 @@ import { AbstractControl, FormControl, FormGroup, Validators, ValidationErrors, 
 import { of } from 'rxjs';
 import { size } from 'lodash';
 
+import { CommentService } from './../../../common/services/comment.service';
+
 @Component({
   selector: 'form1',
   templateUrl: './form1.component.html',
-  styleUrls: ['./form1.component.css']
+  styleUrls: ['./form1.component.css'],
+  providers: [CommentService]
 })
 export class Form1Component implements OnInit {
   commentFormGroup: FormGroup;
@@ -17,7 +20,10 @@ export class Form1Component implements OnInit {
 
   _: Object = { size };
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private commentService: CommentService
+  ) { }
 
   ngOnInit() {
     //FormGroup init
@@ -35,7 +41,14 @@ export class Form1Component implements OnInit {
   }
 
   postComment() {
-    console.log('valid');
+    var test = this.commentService.postComment(this.commentFormGroup.value)
+      .subscribe({
+        next:
+          value => console.log(value),
+        error:
+          err => console.error(err)
+      });
+    debugger;
   }
 
 }
