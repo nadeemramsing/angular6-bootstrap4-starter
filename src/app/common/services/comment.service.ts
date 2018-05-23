@@ -13,6 +13,10 @@ export class CommentService {
 
   constructor(private http: HttpClient, private config: Config) { }
 
+  postComments(body): Observable<Object> {
+    return this.http.get(this.config.BASEURL + 'comments');
+  }
+
   postComment(body): Observable<Object> {
     return this.http.post(this.config.BASEURL + 'comment', body);
   }
