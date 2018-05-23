@@ -92,3 +92,33 @@
     </div>
   </div>
 </div>
+
+<div mdbModal
+     #infoBasicModal="mdb-modal"
+     class="infoBasicModal modal fade"
+     [config]="{backdrop: false, ignoreBackdropClick: true}">
+
+  <div class="modal-dialog modal-side modal-top-right">
+    <div class="modal-content">
+      <div class="modal-body">
+        Comment added
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div mdbModal
+     #errorBasicModal="mdb-modal"
+     class="errorBasicModal modal fade"
+     [config]="{backdrop: false, ignoreBackdropClick: true}">
+
+  <div class="modal-dialog modal-side modal-top-right">
+    <div class="modal-content">
+      <div class="modal-body d-flex justify-content-center">
+        <b>Error:&nbsp;</b> cannot add comment
+      </div>
+    </div>
+  </div>
+
+</div>

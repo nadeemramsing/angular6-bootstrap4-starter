@@ -12,3 +12,28 @@
     margin-top: 24px;
     margin-bottom: 8px;
 }
+
+.modal-dialog {
+    max-width: 15vw;
+}
+
+.modal-body {
+    color: black;
+    font-weight: 400;
+}
+
+.close {
+    outline: none;
+}
+
+.infoBasicModal .modal-body {
+    background-color: rgba(13, 52, 90, 0.2);
+}
+
+.infoBasicModal .close {
+    color: white;
+}
+
+.errorBasicModal .modal-body {
+    background-color: #b62e3c;;
+}

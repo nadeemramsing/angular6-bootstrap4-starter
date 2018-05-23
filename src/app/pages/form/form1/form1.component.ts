@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators, ValidationErrors, FormBuilder } from '@angular/forms';
-import { of } from 'rxjs';
 import { size } from 'lodash';
+import { ModalDirective } from 'angular-bootstrap-md';
+
+//RxJS
+import { Observable, concat, Subscriber } from 'rxjs';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { concatMap, delay, tap } from 'rxjs/operators';
 
 import { CommentService } from './../../../common/services/comment.service';
 
@@ -12,6 +17,13 @@ import { CommentService } from './../../../common/services/comment.service';
   providers: [CommentService]
 })
 export class Form1Component implements OnInit {
+  //ViewChild returns first element or directive matching the selector from the view DOM. 
+  //If the view DOM changes and a new child matches the selector, the property will be updated.
+
+  //read is optional; tells element of which class should be returned
+  @ViewChild('infoBasicModal', { read: ModalDirective }) infoBasicModal: ModalDirective;
+  @ViewChild('errorBasicModal', { read: ModalDirective }) errorBasicModal: ModalDirective;
+
   commentFormGroup: FormGroup;
 
   nameFormControl: AbstractControl;
@@ -41,14 +53,39 @@ export class Form1Component implements OnInit {
   }
 
   postComment() {
-    var test = this.commentService.postComment(this.commentFormGroup.value)
+    const showModal = modal => Observable.create(subscriber => subscriber.next(
+      this[modal].show()
+    ));
+
+    const hideModal = modal => Observable.create(subscriber => subscriber.next(
+      this[modal].hide()
+    ));
+
+    this.commentService.postComment(this.commentFormGroup.value)
+      .pipe(
+        tap(comments => console.log(comments)),
+        //using concat
+        //NOT an operator => needs to be executed 
+        //(observable) => concat(showInfoModal),
+
+        //using concatMap
+        //~async.waterfall
+        //cleaner
+        concatMap(() => showModal('infoBasicModal')),
+        delay(2500),
+        concatMap(() => hideModal('infoBasicModal'))
+      )
       .subscribe({
         next:
-          value => console.log(value),
+          value => { },
         error:
-          err => console.error(err)
+          err => showModal('errorBasicModal')
+            .pipe(
+              delay(2500),
+              concatMap(() => hideModal('errorBasicModal'))
+            )
+            .subscribe()
       });
-    debugger;
   }
 
 }
