@@ -12,6 +12,10 @@ const routes: Routes = [
         {
           path: 'form',
           loadChildren: './form/form.module#FormModule'
+        },
+        {
+          path: 'table',
+          loadChildren: './table/table.module#TableModule'
         }
       ]
   }

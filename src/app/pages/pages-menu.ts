@@ -20,7 +20,8 @@ export const MENU_ITEMS: Array<Object> = [
     //link: '',
     children: [
       {
-        title: 'Table1'
+        title: 'Table1',
+        link: 'table/table1'
       },
       {
         title: 'Table2'
