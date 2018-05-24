@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
+//RxJS
 import { Observable } from 'rxjs/observable';
 import { of } from 'rxjs/observable/of';
 import { tap, map } from 'rxjs/operators';
 
 import { CommentService } from './../../../common/services/comment.service';
+
+//Lodash
+import { times } from 'lodash';
+const _ = { times };
 
 @Component({
   selector: 'table1',
@@ -15,7 +20,7 @@ import { CommentService } from './../../../common/services/comment.service';
 export class Table1Component implements OnInit {
   //$ => Observable
   private comments$: Observable<Object>;
-  private count: Number;
+  private countArr: Array<Number>;
 
   skip: Number = 0;
   limit: Number = 50;
@@ -31,19 +36,25 @@ export class Table1Component implements OnInit {
       limit: this.limit,
       searchText: this.searchText
     }
+    this.getComments(query);
+  }
 
-    //(comments$ | async) pipe in view calls subscribe automatically
+  getComments(query?) {
     this.comments$ = this.commentService.getComments(query)
       .pipe(
         tap(values => {
           let [comments, { count }] = values;
-          this.count = count;
+          this.countArr = _.times(count, page => Number(++page));
         }),
         map(values => values[0])
-      );/* .subscribe({
+      );
+    //(comments$ | async) pipe in view calls subscribe automatically
+    /* 
+      .subscribe({
       next: comments$ => this.comments$ = of(comments$),
       error: err => console.error(err)
-    }) */;
+    });
+    */
   }
 
 }

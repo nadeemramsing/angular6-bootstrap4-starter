@@ -50,15 +50,11 @@
             </li>
 
             <!--Numbers-->
-            <li class="page-item active">
-                <a class="page-link">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link">3</a>
-            </li>
+            <ng-container *ngFor="let page of countArr">
+                <li class="page-item" [ngClass]="{active: page === 1}">
+                    <a class="page-link">{{page}}</a>
+                </li>
+            </ng-container>
 
             <!--Arrow right-->
             <li class="page-item">
