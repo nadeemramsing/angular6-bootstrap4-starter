@@ -2,16 +2,33 @@
     <!-- ng-cloak variant for Array if comments instanceof Array (not Observable)-->
     <!-- <ng-container *ngIf="comments$.length > 0">
         {{comments$}}
-    </ng-container> -->
+    </div> -->
 
-    <!-- Use 'async' pipe only once; then use 'as' to get value of Observable (each async will execute a subscribe)-->
-    <div *ngIf="comments$ | async as comments" class="d-flex flex-column">
-        <ng-container *ngIf="comments.length > 0">
-            <ng-container *ngFor="let comment of comments">
-                <span>
-                    {{comment.name}}
-                </span>
-            </ng-container>
-        </ng-container>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Body</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <!-- Use 'async' pipe only once; then use 'as' to get value of Observable (each async will execute a subscribe)-->
+                <ng-container *ngIf="comments$ | async as comments">
+                    <ng-container *ngFor="let comment of comments">
+                        <tr>
+                            <th>{{comment.id}}</th>
+                            <td>{{comment.name}}</td>
+                            <td>{{comment.email}}</td>
+                            <td>{{comment.body}}</td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+            </tbody>
+        </table>
+
     </div>
 </div>

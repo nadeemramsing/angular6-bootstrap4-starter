@@ -22,7 +22,7 @@ export class Table1Component implements OnInit {
   ngOnInit() {
     const query = {
       skip: 0,
-      limit: 100
+      limit: 50
     }
 
     //(comments$ | async) pipe in view calls subscribe automatically
