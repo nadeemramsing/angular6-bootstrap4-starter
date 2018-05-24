@@ -6,7 +6,8 @@
 
 #navbar-body {
     background: radial-gradient(circle, rgba(13, 52, 90, 0.9), rgba(13, 52, 90) );
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .arrow-down .nav-link::after {

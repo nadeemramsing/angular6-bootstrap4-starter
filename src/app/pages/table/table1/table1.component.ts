@@ -20,11 +20,11 @@ const _ = { times };
 export class Table1Component implements OnInit {
   //$ => Observable
   private comments$: Observable<Object>;
-  private countArr: Array<Number>;
+  private countArr: Array<number>;
 
-  skip: Number = 0;
-  limit: Number = 50;
-  searchText: String = 'nad';
+  skip: number = 0;
+  limit: number = 50;
+  searchText: string = 'na';
 
   constructor(
     private commentService: CommentService
@@ -44,7 +44,7 @@ export class Table1Component implements OnInit {
       .pipe(
         tap(values => {
           let [comments, { count }] = values;
-          this.countArr = _.times(count, page => Number(++page));
+          this.countArr = _.times(Math.floor(count / this.limit) || 1, page => Number(++page));
         }),
         map(values => values[0])
       );
