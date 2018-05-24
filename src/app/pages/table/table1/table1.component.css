@@ -6,3 +6,12 @@
 thead {
     background-color: rgb(11, 44, 77)
 }
+
+.pagination.pagination-circle .page-item .page-link {
+    color: white;
+    transition: none;
+}
+
+.pagination.pagination-circle .page-item .page-link:hover {
+    color: black;
+}
