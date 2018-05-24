@@ -2,3 +2,7 @@
     max-height: 90vh;
     overflow: auto;
 }
+
+thead {
+    background-color: rgb(11, 44, 77)
+}
