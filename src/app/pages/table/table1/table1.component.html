@@ -1,3 +1,15 @@
-<p>
-  table1 works!
-</p>
+<!-- ng-cloak variant for Array if comments instanceof Array (not Observable)-->
+<!-- <ng-container *ngIf="comments$.length > 0; else elseBlock">
+    {{comments$}}
+</ng-container> -->
+
+<!-- Use 'async' pipe only once; then use 'as' to get value of Observable (each async will execute a subscribe)-->
+<div *ngIf="comments$ | async as comments">
+    <ng-container *ngIf="comments.length > 0">
+
+        <ng-container *ngFor="let comment of comments">
+            {{comment}}
+        </ng-container>
+
+    </ng-container>
+</div>
