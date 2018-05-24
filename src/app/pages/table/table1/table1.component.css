@@ -8,7 +8,7 @@ thead {
 }
 
 .pagination.pagination-circle .page-item .page-link {
-    color: white;
+    color: lightgray;
     transition: none;
 }
 
