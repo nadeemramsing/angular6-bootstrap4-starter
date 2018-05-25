@@ -28,8 +28,8 @@ export class Table1Component implements OnInit {
   private currentPage: number = 5;
 
   //Acts as both Observable and Observer
-  //observable.subscribe()
-  //observer.next()
+  //observable.subscribe(observerOrOnNext)
+  //observer.next(value)
   displayCountSubject: Subject<number> = new Subject();
 
   skip: number = 0;
@@ -43,7 +43,7 @@ export class Table1Component implements OnInit {
   ngOnInit() {
     /* RXJS INIT */
     this.displayCountSubject.subscribe(currentPage => this.displayCountArr = this.totalCountArr.slice(currentPage - 3, currentPage + 2))
-
+  
     /* API */
     const query = {
       skip: this.skip,
