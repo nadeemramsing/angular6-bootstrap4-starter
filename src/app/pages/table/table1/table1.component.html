@@ -50,8 +50,8 @@
             </li>
 
             <!--Numbers-->
-            <ng-container *ngFor="let page of countArr">
-                <li class="page-item" [ngClass]="{active: page === 1}">
+            <ng-container *ngFor="let page of displayCountArr">
+                <li class="page-item" [ngClass]="{active: page === currentPage}">
                     <a class="page-link">{{page}}</a>
                 </li>
             </ng-container>
@@ -59,7 +59,8 @@
             <!--Arrow right-->
             <li class="page-item">
                 <a class="page-link"
-                   aria-label="Next">
+                   aria-label="Next"
+                   (click)="next()">
                     <span aria-hidden="true">»</span>
                     <span class="sr-only">Next</span>
                 </a>

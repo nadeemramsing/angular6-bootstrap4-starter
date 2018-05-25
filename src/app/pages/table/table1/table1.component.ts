@@ -4,12 +4,13 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/observable';
 import { of } from 'rxjs/observable/of';
 import { tap, map } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
 
 import { CommentService } from './../../../common/services/comment.service';
 
 //Lodash
-import { times } from 'lodash';
-const _ = { times };
+import { times, chain, last } from 'lodash';
+const _ = { times, chain, last };
 
 @Component({
   selector: 'table1',
@@ -20,17 +21,30 @@ const _ = { times };
 export class Table1Component implements OnInit {
   //$ => Observable
   private comments$: Observable<Object>;
-  private countArr: Array<number>;
+
+  /* Pagination variables */
+  private totalCountArr: Array<number>;
+  private displayCountArr: Array<number>;
+  private currentPage: number = 5;
+
+  //Acts as both Observable and Observer
+  //observable.subscribe()
+  //observer.next()
+  displayCountSubject: Subject<number> = new Subject();
 
   skip: number = 0;
-  limit: number = 50;
-  searchText: string = 'na';
+  limit: number = 25;
+  searchText: string = '';
 
   constructor(
     private commentService: CommentService
   ) { }
 
   ngOnInit() {
+    /* RXJS INIT */
+    this.displayCountSubject.subscribe(currentPage => this.displayCountArr = this.totalCountArr.slice(currentPage - 3, currentPage + 2))
+
+    /* API */
     const query = {
       skip: this.skip,
       limit: this.limit,
@@ -44,7 +58,8 @@ export class Table1Component implements OnInit {
       .pipe(
         tap(values => {
           let [comments, { count }] = values;
-          this.countArr = _.times(Math.floor(count / this.limit) || 1, page => Number(++page));
+          this.totalCountArr = _.times(Math.floor(count / this.limit) || 1, page => Number(++page));
+          this.displayCountSubject.next(this.currentPage);
         }),
         map(values => values[0])
       );
@@ -55,6 +70,15 @@ export class Table1Component implements OnInit {
       error: err => console.error(err)
     });
     */
+  }
+
+  /* Pagination methods */
+  next() {
+    const isLast = this.currentPage === _.last(this.totalCountArr);
+    if (isLast)
+      return;
+
+    this.displayCountSubject.next(++this.currentPage);
   }
 
 }
