@@ -9,8 +9,8 @@ import { Subject } from 'rxjs/Subject';
 import { CommentService } from './../../../common/services/comment.service';
 
 //Lodash
-import { times, chain, last } from 'lodash';
-const _ = { times, chain, last };
+import { times, chain, last, first } from 'lodash';
+const _ = { times, chain, last, first };
 
 @Component({
   selector: 'table1',
@@ -42,8 +42,11 @@ export class Table1Component implements OnInit {
 
   ngOnInit() {
     /* RXJS INIT */
-    this.displayCountSubject.subscribe(currentPage => this.displayCountArr = this.totalCountArr.slice(currentPage - 3, currentPage + 2))
-  
+    this.displayCountSubject.subscribe(currentPage => this.displayCountArr = _.chain(this.totalCountArr)
+      .drop(currentPage - 3)
+      .take(5)
+      .value())
+
     /* API */
     const query = {
       skip: this.skip,
@@ -79,6 +82,14 @@ export class Table1Component implements OnInit {
       return;
 
     this.displayCountSubject.next(++this.currentPage);
+  }
+
+  previous() {
+    const isFirst = this.currentPage === _.first(this.totalCountArr);
+    if (isFirst)
+      return;
+
+    this.displayCountSubject.next(--this.currentPage);
   }
 
 }
