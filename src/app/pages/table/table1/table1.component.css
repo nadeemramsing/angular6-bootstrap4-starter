@@ -20,3 +20,9 @@ table.table-hover tbody tr:hover {
 .pagination.pagination-circle .page-item .page-link:hover {
     color: black;
 }
+
+.pagination-link {
+    min-width: 40px;
+    display: flex;
+    justify-content: center;
+}

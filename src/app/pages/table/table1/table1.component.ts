@@ -81,7 +81,7 @@ export class Table1Component implements OnInit {
     if (isLast)
       return;
 
-    this.displayCountSubject.next(++this.currentPage);
+    this.jumpToPage(this.currentPage + 1);
   }
 
   previous() {
@@ -89,7 +89,12 @@ export class Table1Component implements OnInit {
     if (isFirst)
       return;
 
-    this.displayCountSubject.next(--this.currentPage);
+    this.jumpToPage(this.currentPage - 1);
+  }
+
+  jumpToPage(page) {
+    this.currentPage = page;
+    this.displayCountSubject.next(page);
   }
 
 }

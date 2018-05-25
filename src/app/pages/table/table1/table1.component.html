@@ -37,12 +37,12 @@
 
             <!--First-->
             <li class="page-item disabled">
-                <a class="page-link">First</a>
+                <a class="page-link pagination-link">First</a>
             </li>
 
             <!--Arrow left-->
             <li class="page-item">
-                <a class="page-link"
+                <a class="page-link pagination-link"
                    aria-label="Previous"
                    (click)="previous()">
                     <span aria-hidden="true">«</span>
@@ -53,13 +53,15 @@
             <!--Numbers-->
             <ng-container *ngFor="let page of displayCountArr">
                 <li class="page-item" [ngClass]="{active: page === currentPage}">
-                    <a class="page-link">{{page}}</a>
+                    <a class="page-link pagination-link">
+                        {{page}}
+                    </a>
                 </li>
             </ng-container>
 
             <!--Arrow right-->
             <li class="page-item">
-                <a class="page-link"
+                <a class="page-link pagination-link"
                    aria-label="Next"
                    (click)="next()">
                     <span aria-hidden="true">»</span>
