@@ -52,8 +52,10 @@
 
             <!--Numbers-->
             <ng-container *ngFor="let page of displayCountArr">
-                <li class="page-item" [ngClass]="{active: page === currentPage}">
-                    <a class="page-link pagination-link">
+                <li class="page-item"
+                    [ngClass]="{active: page === currentPage}">
+                    <a class="page-link pagination-link"
+                       (click)="jumpToPage(page)">
                         {{page}}
                     </a>
                 </li>
