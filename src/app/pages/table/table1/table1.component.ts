@@ -87,7 +87,10 @@ export class Table1Component implements OnInit {
   }
 
   /* Pagination methods */
-  next() {
+
+  //jumpToPage directly called from view
+  /* next() {
+    //[ngClass]=disabled used
     const isLast = this.currentPage === _.last(this.totalCountArr);
     if (isLast)
       return;
@@ -101,7 +104,7 @@ export class Table1Component implements OnInit {
       return;
 
     this.jumpToPage(this.currentPage - 1);
-  }
+  } */
 
   jumpToPage(page) {
     this.query.skip = (page - 1) * this.query.limit;

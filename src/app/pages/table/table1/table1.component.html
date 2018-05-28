@@ -47,7 +47,7 @@
                 [ngClass]="{disabled: currentPage === 1}">
                 <a class="page-link pagination-link"
                    aria-label="Previous"
-                   (click)="previous()">
+                   (click)="jumpToPage(currentPage - 1)">
                     <span aria-hidden="true">«</span>
                     <span class="sr-only">Previous</span>
                 </a>
@@ -69,7 +69,7 @@
                 [ngClass]="{disabled: currentPage === _.last(totalCountArr)}">
                 <a class="page-link pagination-link"
                    aria-label="Next"
-                   (click)="next()">
+                   (click)="jumpToPage(currentPage + 1)">
                     <span aria-hidden="true">»</span>
                     <span class="sr-only">Next</span>
                 </a>
