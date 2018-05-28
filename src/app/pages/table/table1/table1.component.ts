@@ -19,22 +19,31 @@ const _ = { times, chain, last, first };
   providers: [CommentService]
 })
 export class Table1Component implements OnInit {
+  private _: Object = {
+    last
+  };
+
   //$ => Observable
   private comments$: Observable<Object>;
 
   /* Pagination variables */
   private totalCountArr: Array<number>;
   private displayCountArr: Array<number>;
-  private currentPage: number = 5;
+  private currentPage: number = 20;
+  private noOfPages: number = 5;
+  private halfNoOfPages: number = Math.floor(this.noOfPages / 2);
 
   //Acts as both Observable and Observer
   //observable.subscribe(observerOrOnNext)
   //observer.next(value)
   displayCountSubject: Subject<number> = new Subject();
 
-  skip: number = 0;
-  limit: number = 25;
-  searchText: string = '';
+  query: any = {
+    skip: 0,
+    limit: 25,
+    searchText: ''
+
+  };
 
   constructor(
     private commentService: CommentService
@@ -42,18 +51,20 @@ export class Table1Component implements OnInit {
 
   ngOnInit() {
     /* RXJS INIT */
-    this.displayCountSubject.subscribe(currentPage => this.displayCountArr = _.chain(this.totalCountArr)
-      .drop(currentPage - 3)
-      .take(5)
-      .value())
+    this.displayCountSubject.subscribe(currentPage => {
+      const
+        isEnd = (this.totalCountArr.length - currentPage) < this.halfNoOfPages,
+        beforeCurrentPage = isEnd ? currentPage - (this.halfNoOfPages - (this.totalCountArr.length - currentPage)) : currentPage,
+        afterCurrentPage = this.noOfPages - this.halfNoOfPages;
+
+      this.displayCountArr = _.chain(this.totalCountArr)
+        .drop(beforeCurrentPage - afterCurrentPage)
+        .take(this.noOfPages)
+        .value()
+    })
 
     /* API */
-    const query = {
-      skip: this.skip,
-      limit: this.limit,
-      searchText: this.searchText
-    }
-    this.getComments(query);
+    this.getComments(this.query);
   }
 
   getComments(query?) {
@@ -61,7 +72,7 @@ export class Table1Component implements OnInit {
       .pipe(
         tap(values => {
           let [comments, { count }] = values;
-          this.totalCountArr = _.times(Math.floor(count / this.limit) || 1, page => Number(++page));
+          this.totalCountArr = _.times(Math.floor(count / this.query.limit) || 1, page => Number(++page));
           this.displayCountSubject.next(this.currentPage);
         }),
         map(values => values[0])
@@ -93,8 +104,14 @@ export class Table1Component implements OnInit {
   }
 
   jumpToPage(page) {
+    this.query.skip = (page - 1) * this.query.limit;
     this.currentPage = page;
     this.displayCountSubject.next(page);
+    this.apiCall();
+  }
+
+  apiCall() {
+    this.getComments(this.query);
   }
 
 }

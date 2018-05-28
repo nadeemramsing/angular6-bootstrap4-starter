@@ -23,6 +23,10 @@ export class CommentService {
       }),
       getCommentsCount = this.getCommentsCount(query);
 
+    //init
+    //Previous values were being emitted => init (workaround)
+    this.getCommentsSubject = new ReplaySubject(1);
+
     forkJoin(
       getComments,
       getCommentsCount

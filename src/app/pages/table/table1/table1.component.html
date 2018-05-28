@@ -36,12 +36,15 @@
         <ul class="pagination pagination-circle pg-blue mb-0 justify-content-center">
 
             <!--First-->
-            <li class="page-item disabled">
-                <a class="page-link pagination-link">First</a>
+            <li class="page-item"
+                [ngClass]="{disabled: currentPage === 1}">
+                <a class="page-link pagination-link"
+                   (click)="jumpToPage(1)">First</a>
             </li>
 
             <!--Arrow left-->
-            <li class="page-item">
+            <li class="page-item"
+                [ngClass]="{disabled: currentPage === 1}">
                 <a class="page-link pagination-link"
                    aria-label="Previous"
                    (click)="previous()">
@@ -62,7 +65,8 @@
             </ng-container>
 
             <!--Arrow right-->
-            <li class="page-item">
+            <li class="page-item"
+                [ngClass]="{disabled: currentPage === _.last(totalCountArr)}">
                 <a class="page-link pagination-link"
                    aria-label="Next"
                    (click)="next()">
@@ -72,8 +76,10 @@
             </li>
 
             <!--Last-->
-            <li class="page-item">
-                <a class="page-link">Last</a>
+            <li class="page-item"
+                [ngClass]="{disabled: currentPage === _.last(totalCountArr)}">
+                <a class="page-link"
+                   (click)="jumpToPage(totalCountArr.length)">Last</a>
             </li>
 
         </ul>
