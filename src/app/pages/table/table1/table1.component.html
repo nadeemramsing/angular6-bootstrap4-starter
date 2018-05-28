@@ -19,7 +19,7 @@
                 <!-- Use 'async' pipe only once; then use 'as' to get value of Observable (each async will execute a subscribe)-->
                 <ng-container *ngIf="comments$ | async as comments">
                     <ng-container *ngFor="let comment of comments">
-                        <tr>
+                        <tr (click)="goToForm(comment)">
                             <th>{{comment.id}}</th>
                             <td>{{comment.name}}</td>
                             <td>{{comment.email}}</td>

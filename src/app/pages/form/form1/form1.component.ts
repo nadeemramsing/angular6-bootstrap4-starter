@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, Validators, ValidationErrors, FormBuilder } from '@angular/forms';
+
 import { size } from 'lodash';
 import { ModalDirective } from 'angular-bootstrap-md';
 
 //RxJS
 import { Observable, concat, Subscriber } from 'rxjs';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { concatMap, delay, tap } from 'rxjs/operators';
+import { concatMap, delay, tap, map } from 'rxjs/operators';
 
 import { CommentService } from './../../../common/services/comment.service';
 
@@ -34,10 +36,17 @@ export class Form1Component implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private commentService: CommentService
+    private commentService: CommentService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    this.initFormGroup();
+    this.initQueryParams();
+  }
+
+  initFormGroup() {
     //FormGroup init
     //[controlsConfig, ...extra: ValidatorFn || AsyncValidatorFn] <- ~FormGroup
     this.commentFormGroup = this.fb.group({
@@ -50,6 +59,25 @@ export class Form1Component implements OnInit {
     this.nameFormControl = this.commentFormGroup.controls['name'];
     this.emailFormControl = this.commentFormGroup.controls['email'];
     this.bodyFormControl = this.commentFormGroup.controls['body'];
+  }
+
+  initQueryParams() {
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      let comment = JSON.parse(queryParams.comment);
+
+      //formGroup.patchValue => calls patchValue method of each control given in first argument
+      this.commentFormGroup.patchValue(comment);
+      //instead of 
+      /* .patchValue({
+        name: comment.name,
+        email: comment.email,
+        body: comment.body
+        ...
+      }) */
+
+      //patchValue: Ignores keys that do not exists
+      //setValue: Throw error if non-existing key used
+    });
   }
 
   postComment() {

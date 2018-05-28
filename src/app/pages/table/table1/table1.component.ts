@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 //RxJS
 import { Observable } from 'rxjs/observable';
@@ -46,7 +47,9 @@ export class Table1Component implements OnInit {
   };
 
   constructor(
-    private commentService: CommentService
+    private commentService: CommentService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -84,6 +87,27 @@ export class Table1Component implements OnInit {
       error: err => console.error(err)
     });
     */
+  }
+
+  goToForm(comment) {
+    //Both works; navigateByUrl seems faster?
+
+    //router.navigateByUrl: Similar to changing the location bar directly – we are providing the “whole” new URL. 
+    //router.navigate: creates a new URL by applying an array of passed-in commands, a patch, to the current URL
+
+    //queryParams does not work here => Use to redirect with queryParams only
+    /* this.router.navigateByUrl('pages/form/form1', {
+      queryParams: { comment },
+      queryParamsHandling: "merge"
+      //merge: same as Object.assign(previousQueryParams, queryParams)
+      //preserve: queryParams won't work; rather currentQueryParams in targetted route will be preserved
+    }); */
+
+    //queryParams work
+    this.router.navigate(['pages/form/form1'], {
+      queryParams: { comment: JSON.stringify(comment) },
+      queryParamsHandling: "merge"
+    });
   }
 
   /* Pagination methods */
