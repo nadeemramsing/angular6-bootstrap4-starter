@@ -30,7 +30,7 @@ export class Table1Component implements OnInit {
   /* Pagination variables */
   private totalCountArr: Array<number>;
   private displayCountArr: Array<number>;
-  private currentPage: number = 20;
+  private currentPage: number = 1;
   private noOfPages: number = 5;
   private halfNoOfPages: number = Math.floor(this.noOfPages / 2);
 
