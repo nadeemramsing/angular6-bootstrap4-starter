@@ -5,13 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/observable';
 import { of } from 'rxjs/observable/of';
 import { tap, map } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
 
 import { CommentService } from './../../../common/services/comment.service';
-
-//Lodash
-import { times, chain, last, first } from 'lodash';
-const _ = { times, chain, last, first };
 
 @Component({
   selector: 'table1',
@@ -20,30 +15,14 @@ const _ = { times, chain, last, first };
   providers: [CommentService]
 })
 export class Table1Component implements OnInit {
-  private _: Object = {
-    last
-  };
-
   //$ => Observable
   private comments$: Observable<Object>;
-
-  /* Pagination variables */
-  private totalCountArr: Array<number>;
-  private displayCountArr: Array<number>;
-  private currentPage: number = 1;
-  private noOfPages: number = 5;
-  private halfNoOfPages: number = Math.floor(this.noOfPages / 2);
-
-  //Acts as both Observable and Observer
-  //observable.subscribe(observerOrOnNext)
-  //observer.next(value)
-  displayCountSubject: Subject<number> = new Subject();
+  private count$: Observable<number>;
 
   query: any = {
     skip: 0,
     limit: 25,
     searchText: ''
-
   };
 
   constructor(
@@ -53,18 +32,7 @@ export class Table1Component implements OnInit {
   ) { }
 
   ngOnInit() {
-    /* RXJS INIT */
-    this.displayCountSubject.subscribe(currentPage => {
-      const
-        isEnd = (this.totalCountArr.length - currentPage) < this.halfNoOfPages,
-        beforeCurrentPage = isEnd ? currentPage - (this.halfNoOfPages - (this.totalCountArr.length - currentPage)) : currentPage,
-        afterCurrentPage = this.noOfPages - this.halfNoOfPages;
-
-      this.displayCountArr = _.chain(this.totalCountArr)
-        .drop(beforeCurrentPage - afterCurrentPage)
-        .take(this.noOfPages)
-        .value()
-    })
+    this.count$ = this.commentService.getCommentsCount(this.query);
 
     /* API */
     this.getComments(this.query);
@@ -74,9 +42,10 @@ export class Table1Component implements OnInit {
     this.comments$ = this.commentService.getComments(query)
       .pipe(
         tap(values => {
-          let [comments, { count }] = values;
-          this.totalCountArr = _.times(Math.floor(count / this.query.limit) || 1, page => Number(++page));
-          this.displayCountSubject.next(this.currentPage);
+          let [comments, count] = values;
+
+          //separated from comments (due to pagination)
+          /* this.count$ = of(count); */
         }),
         map(values => values[0])
       );
@@ -110,34 +79,8 @@ export class Table1Component implements OnInit {
     });
   }
 
-  /* Pagination methods */
-
-  //jumpToPage directly called from view
-  /* next() {
-    //[ngClass]=disabled used
-    const isLast = this.currentPage === _.last(this.totalCountArr);
-    if (isLast)
-      return;
-
-    this.jumpToPage(this.currentPage + 1);
-  }
-
-  previous() {
-    const isFirst = this.currentPage === _.first(this.totalCountArr);
-    if (isFirst)
-      return;
-
-    this.jumpToPage(this.currentPage - 1);
-  } */
-
-  jumpToPage(page) {
-    this.query.skip = (page - 1) * this.query.limit;
-    this.currentPage = page;
-    this.displayCountSubject.next(page);
-    this.apiCall();
-  }
-
-  apiCall() {
+  onPageChange(paginationOptions) {
+    this.query = Object.assign({}, this.query, paginationOptions);
     this.getComments(this.query);
   }
 

@@ -5,6 +5,7 @@ import { Observable, of, forkJoin } from 'rxjs';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { Config } from './../Config';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,10 @@ export class CommentService {
     return this.http
       .get(this.config.BASEURL + 'comments/count', {
         params: query
-      });
+      })
+      .pipe(
+        map((res: any) => res.count)
+      );
   }
 
   postComment(body): Observable<any> {
