@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 //Lodash
 import { last, times, chain } from 'lodash';
-const _ = { last, times, chain };
+const _ = { times, chain };
 
 @Component({
   selector: 'nr-pagination',
@@ -61,6 +61,7 @@ export class NrPaginationComponent implements OnInit, OnChanges {
       .take(this.noOfPages)
       .value();
 
+    //If view not updated:
     //Try markForCheck first (to include current component in next Angular's change detection)
     this.ref.markForCheck();
     //If does not work, try detectChanges (to immediately run change detection for current component and its children)
