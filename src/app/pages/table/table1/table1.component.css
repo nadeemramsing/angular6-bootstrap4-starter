@@ -1,6 +1,6 @@
 .table-container {
-    height: 90vh;
-    overflow: auto;
+    /* height: 90vh; */ /* To avoid overflow complications during responsiveness, use flex */
+    overflow: auto; /* => table gets overflow: scroll instead of navbar-body */
 }
 
 thead {

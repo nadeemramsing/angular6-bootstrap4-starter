@@ -32,6 +32,8 @@ export class Form1Component implements OnInit {
   emailFormControl: AbstractControl;
   bodyFormControl: AbstractControl;
 
+  /* SEARCH */
+
   _: Object = { size };
 
   constructor(
@@ -63,6 +65,9 @@ export class Form1Component implements OnInit {
 
   initQueryParams() {
     this.activatedRoute.queryParams.subscribe(queryParams => {
+      if (!queryParams.comment)
+        return;
+
       let comment = JSON.parse(queryParams.comment);
 
       //formGroup.patchValue => calls patchValue method of each control given in first argument
@@ -115,6 +120,8 @@ export class Form1Component implements OnInit {
             .subscribe()
       });
   }
+
+  /* SEARCH */
 
 }
 

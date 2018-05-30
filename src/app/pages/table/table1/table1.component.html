@@ -1,8 +1,17 @@
-<div class="h-100">
+<div class="h-100 d-flex flex-column">
     <!-- ng-cloak variant for Array if comments instanceof Array (not Observable)-->
     <!-- <ng-container *ngIf="comments$.length > 0">
         {{comments$}}
     </div> -->
+
+    <!-- SEARCH -->
+    <div class="md-form mt-0">
+        <input class="form-control"
+               mdbInputDirective
+               [mdbValidate]="false">
+
+        <label for="name">Name</label>
+    </div>
 
     <div class="table-container">
         <table class="table table-striped table-hover">
