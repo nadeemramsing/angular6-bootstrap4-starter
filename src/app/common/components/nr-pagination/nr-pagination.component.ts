@@ -16,6 +16,7 @@ export class NrPaginationComponent implements OnInit, OnChanges {
     last
   };
 
+  @Input('skip') skip: number;
   @Input('limit') limit: number;
   @Input('countObservable') count$: Observable<number>;
   @Output('onPageChange') changePage = new EventEmitter();
@@ -42,6 +43,10 @@ export class NrPaginationComponent implements OnInit, OnChanges {
     //changes: {currentValue, firstChange, previousValue}
     if (this.count$ instanceof Observable)
       this.count$.subscribe(count => this.constructTotalCountArr(count));
+
+      /* TODO: use only skip only (NOT this.options.skip and this.skip) */
+    if (this.skip === 0)
+      this.currentPage = 1;
   }
 
   constructTotalCountArr(count) {

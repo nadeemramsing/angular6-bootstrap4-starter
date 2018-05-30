@@ -44,7 +44,8 @@
         </table>
     </div>
 
-    <nr-pagination [limit]="query.limit"
+    <nr-pagination [skip]="query.skip"
+                   [limit]="query.limit"
                    [countObservable]="count$"
                    (onPageChange)="onPageChange($event)"></nr-pagination>
 </div>

@@ -49,7 +49,11 @@ export class Table1Component implements OnInit, AfterViewInit {
         debounceTime(500),
         concatMap((value: any) => value.data || of(null))
       );
-    this.searchClick$.subscribe(key => this.getComments(Object.assign({}, this.query, { searchText: this.search.nativeElement.value })) && this.ref.markForCheck());
+    this.searchClick$.subscribe(key =>
+      (this.query = Object.assign({}, this.query, { searchText: this.search.nativeElement.value, skip: 0 }))
+      && this.getComments(this.query)
+      && this.ref.markForCheck()
+    );
   }
 
   getComments(query?) {
@@ -70,7 +74,7 @@ export class Table1Component implements OnInit, AfterViewInit {
       error: err => console.error(err)
     });
     */
-   return true;
+    return true;
   }
 
   goToForm(comment) {
