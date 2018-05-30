@@ -32,8 +32,6 @@ export class Form1Component implements OnInit {
   emailFormControl: AbstractControl;
   bodyFormControl: AbstractControl;
 
-  /* SEARCH */
-
   _: Object = { size };
 
   constructor(
@@ -120,9 +118,6 @@ export class Form1Component implements OnInit {
             .subscribe()
       });
   }
-
-  /* SEARCH */
-
 }
 
 /* HELPER FUNCTIONS */

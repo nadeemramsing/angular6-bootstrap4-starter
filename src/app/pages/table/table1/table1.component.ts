@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 //RxJS
 import { Observable } from 'rxjs/observable';
 import { of } from 'rxjs/observable/of';
-import { tap, map } from 'rxjs/operators';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { tap, map, concatMap, debounceTime } from 'rxjs/operators';
 
 import { CommentService } from './../../../common/services/comment.service';
 
@@ -14,7 +15,8 @@ import { CommentService } from './../../../common/services/comment.service';
   styleUrls: ['./table1.component.css'],
   providers: [CommentService]
 })
-export class Table1Component implements OnInit {
+export class Table1Component implements OnInit, AfterViewInit {
+
   //$ => Observable
   private comments$: Observable<Object>;
   private count$: Observable<number>;
@@ -25,17 +27,29 @@ export class Table1Component implements OnInit {
     searchText: ''
   };
 
+  /* SEARCH */
+  @ViewChild('search') search: ElementRef;
+  private searchClick$: Observable<any>;
+
   constructor(
     private commentService: CommentService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    this.count$ = this.commentService.getCommentsCount(this.query);
-
     /* API */
     this.getComments(this.query);
+  }
+
+  ngAfterViewInit() {
+    this.searchClick$ = fromEvent(this.search.nativeElement, 'input') //change does not work
+      .pipe(
+        debounceTime(500),
+        concatMap((value: any) => value.data || of(null))
+      );
+    this.searchClick$.subscribe(key => this.getComments(Object.assign({}, this.query, { searchText: this.search.nativeElement.value })) && this.ref.markForCheck());
   }
 
   getComments(query?) {
@@ -45,7 +59,7 @@ export class Table1Component implements OnInit {
           let [comments, count] = values;
 
           //separated from comments (due to pagination)
-          /* this.count$ = of(count); */
+          this.count$ = of(count);
         }),
         map(values => values[0])
       );
@@ -56,6 +70,7 @@ export class Table1Component implements OnInit {
       error: err => console.error(err)
     });
     */
+   return true;
   }
 
   goToForm(comment) {
@@ -83,5 +98,7 @@ export class Table1Component implements OnInit {
     this.query = Object.assign({}, this.query, paginationOptions);
     this.getComments(this.query);
   }
+
+  /* SEARCH */
 
 }

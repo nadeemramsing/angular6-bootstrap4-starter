@@ -35,14 +35,13 @@ export class NrPaginationComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.options.limit = this.limit;
-    this.count$.subscribe(count => this.constructTotalCountArr(count));
   }
 
   //Fires when data-bound properties/@Input variable changes (change should be by reference?)
   ngOnChanges(changes) {
     //changes: {currentValue, firstChange, previousValue}
-    /* if (this.count$ instanceof Observable)
-      this.count$.subscribe(count => this.constructTotalCountArr(count)); */
+    if (this.count$ instanceof Observable)
+      this.count$.subscribe(count => this.constructTotalCountArr(count));
   }
 
   constructTotalCountArr(count) {

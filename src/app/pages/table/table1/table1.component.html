@@ -5,13 +5,17 @@
     </div> -->
 
     <!-- SEARCH -->
-    <div class="md-form mt-0">
-        <input class="form-control"
-               mdbInputDirective
-               [mdbValidate]="false">
+    <form>
+        <div class="md-form mt-2">
+            <input #search
+                   type="text"
+                   class="form-control"
+                   mdbInputDirective
+                   [mdbValidate]="false">
 
-        <label for="name">Name</label>
-    </div>
+            <label for="name">Name</label>
+        </div>
+    </form>
 
     <div class="table-container">
         <table class="table table-striped table-hover">
