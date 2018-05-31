@@ -48,4 +48,8 @@
                    [limit]="query.limit"
                    [countObservable]="count$"
                    (onPageChange)="onPageChange($event)"></nr-pagination>
+
+    <span align="center">
+        {{query | json}}
+    </span>
 </div>

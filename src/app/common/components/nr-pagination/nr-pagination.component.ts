@@ -16,15 +16,11 @@ export class NrPaginationComponent implements OnInit, OnChanges {
     last
   };
 
-  @Input('skip') skip: number;
-  @Input('limit') limit: number;
+  @Input('skip') skip: number = 0;
+  @Input('limit') limit: number = 50;
   @Input('countObservable') count$: Observable<number>;
   @Output('onPageChange') changePage = new EventEmitter();
 
-  private options = {
-    skip: 0,
-    limit: 50
-  };
 
   private totalCountArr: Array<number> = [];
   private displayCountArr: Array<number> = [];
@@ -34,9 +30,7 @@ export class NrPaginationComponent implements OnInit, OnChanges {
 
   constructor(private ref: ChangeDetectorRef) { }
 
-  ngOnInit() {
-    this.options.limit = this.limit;
-  }
+  ngOnInit() {}
 
   //Fires when data-bound properties/@Input variable changes (change should be by reference?)
   ngOnChanges(changes) {
@@ -44,13 +38,12 @@ export class NrPaginationComponent implements OnInit, OnChanges {
     if (this.count$ instanceof Observable)
       this.count$.subscribe(count => this.constructTotalCountArr(count));
 
-      /* TODO: use only skip only (NOT this.options.skip and this.skip) */
     if (this.skip === 0)
       this.currentPage = 1;
   }
 
   constructTotalCountArr(count) {
-    this.totalCountArr = _.times(Math.floor(count / this.options.limit) || 1, page => Number(++page));
+    this.totalCountArr = _.times(Math.floor(count / this.limit) || 1, page => Number(++page));
     this.constructDisplayCountArr(this.currentPage)
   }
 
@@ -65,20 +58,31 @@ export class NrPaginationComponent implements OnInit, OnChanges {
       .take(this.noOfPages)
       .value();
 
+    //@Input('skip') used => detectChanges triggered as soon as input bindings change
+
     //If view not updated:
-    //Try markForCheck first (to include current component in next Angular's change detection)
-    this.ref.markForCheck();
-    //If does not work, try detectChanges (to immediately run change detection for current component and its children)
+    //Try detectChanges first (to immediately run change detection for current component and its children)
+    //Current -> Children
     /* this.ref.detectChanges(); */
+
+    //If does not work, try markForCheck (to mark all ChangeDetectionStrategy ancestors as to be checked.)
+    //Current -> Parents
+    /* this.ref.markForCheck(); */
+
+    //How CD works: 
+    //It always goes from root component down. 
+    //So, if we want to run CD on a specific component, we will need to do CD from root to the specific component
+
+    //ChangeDetectorRef is a reference to the CD of the current component
   }
 
   jumpToPage(page) {
     this.currentPage = page;
-    this.options.skip = (page - 1) * this.options.limit;
+    this.skip = (page - 1) * this.limit;
     this.constructDisplayCountArr(page)
     this.changePage.emit({
-      skip: this.options.skip,
-      limit: this.options.limit
+      skip: this.skip,
+      limit: this.limit
     });
   }
 }

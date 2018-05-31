@@ -21,7 +21,7 @@ export class Table1Component implements OnInit, AfterViewInit {
   private comments$: Observable<Object>;
   private count$: Observable<number>;
 
-  query: any = {
+  private query: any = {
     skip: 0,
     limit: 25,
     searchText: ''
@@ -49,15 +49,18 @@ export class Table1Component implements OnInit, AfterViewInit {
         debounceTime(500),
         concatMap((value: any) => value.data || of(null))
       );
-    this.searchClick$.subscribe(key =>
-      (this.query = Object.assign({}, this.query, { searchText: this.search.nativeElement.value, skip: 0 }))
-      && this.getComments(this.query)
-      && this.ref.markForCheck()
-    );
+    this.searchClick$.subscribe(key => {
+      this.query = Object.assign({}, this.query, { searchText: this.search.nativeElement.value, skip: 0 });
+
+      this.getComments(this.query)
+        .pipe(
+          (o => { this.ref.detectChanges(); return o })
+        );
+    });
   }
 
   getComments(query?) {
-    this.comments$ = this.commentService.getComments(query)
+    return this.comments$ = this.commentService.getComments(query)
       .pipe(
         tap(values => {
           let [comments, count] = values;
@@ -74,7 +77,6 @@ export class Table1Component implements OnInit, AfterViewInit {
       error: err => console.error(err)
     });
     */
-    return true;
   }
 
   goToForm(comment) {
