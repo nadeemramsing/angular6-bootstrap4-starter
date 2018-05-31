@@ -7,6 +7,8 @@ import { of } from 'rxjs/observable/of';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { tap, map, concatMap, debounceTime } from 'rxjs/operators';
 
+import { Store } from '@ngrx/store';
+
 import { CommentService } from './../../../common/services/comment.service';
 
 @Component({
@@ -35,11 +37,16 @@ export class Table1Component implements OnInit, AfterViewInit {
     private commentService: CommentService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private store: Store<boolean> //testing type
   ) { }
 
   ngOnInit() {
     /* API */
+    this.store
+      .select('commentState')
+      .subscribe(state => console.log(state));
+
     this.getComments(this.query);
   }
 
